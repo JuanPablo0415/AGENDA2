@@ -41,6 +41,13 @@ public class CControl {
             return null;
         }
     }
+
+    public boolean borrar(String telefono) {
+        conecta = con.conectar();
+        boolean bandera = consulta.borrar(conecta, telefono);
+        con.desconectar(conecta);
+        return bandera;
+    }
     
-    
+   
 }//fin de la clase

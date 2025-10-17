@@ -16,16 +16,17 @@ public class CConexion {
 
     
     //---------CONEXION LOCAL-----------\\
-    /*
+    
     String usuario = "root";
     String contrasena = "";
     String url = "jdbc:mysql://localhost:3306/agenda";
-    */
     
+    /*
     //----------CONEXION ONLINE-----------\\
      String usuario = "programacion";
     String contrasena = "#3Programacion3";
     String url = "jdbc:mysql://72.167.84.254/agenda";
+*/
 
     public Connection conectar() {
         Connection con = null;
@@ -34,6 +35,7 @@ public class CConexion {
             System.out.println("conexion correcta");
             return con;
         } catch (Exception e) {
+            System.out.println("conexion incorrecta");
             return null;
         }
     }//fin metodo conectar

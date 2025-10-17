@@ -37,8 +37,6 @@ public class CConsultas {
         }
     }//fin metodo ingresar
 
-    
-    
     //para ejecutar el método recibimos por parámetro una conexión activa
     public ArrayList<CContacto> consultar(Connection con) {
         this.con = con;
@@ -70,4 +68,26 @@ public class CConsultas {
         }
     }//fin del metodo consultar
 
+    public boolean borrar(Connection con, String telefono) {
+        this.con = con;
+        String query = "DELETE FROM datos WHERE telefono = '" + telefono + "';";
+        try {
+            //preparo la consulta
+            PreparedStatement preparar = con.prepareStatement(query);
+            //ejecuto la consulta luego de prepararla
+            int v = preparar.executeUpdate();
+            if (v > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error en el sql");
+            return false;
+        }
+    }//fin de la funcion borrar
+    
+    
+    
+    
 }//fin de la clase

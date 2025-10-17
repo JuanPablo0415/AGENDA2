@@ -17,9 +17,9 @@ public class interfaz extends javax.swing.JFrame {
 
     //modelo para manipular la tabla
     DefaultTableModel modelo;
-    
+
     //instancia del objeto para interactuar con la capa de control
-    CControl c=new CControl();
+    CControl c = new CControl();
 
     public interfaz() {
         initComponents();
@@ -491,8 +491,18 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_direccionActionPerformed
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-       c.insertar(nombres.getText(), apellidos.getText(), telefono.getText(), direccion.getText(), email.getText());
-       
+        if (!nombres.getText().trim().isEmpty() && !apellidos.getText().trim().isEmpty() && !telefono.getText().trim().isEmpty()
+                && !direccion.getText().trim().isEmpty() && !email.getText().trim().isEmpty()) {
+
+            boolean bandera = c.insertar(nombres.getText(), apellidos.getText(), telefono.getText(), direccion.getText(), email.getText());
+            if (bandera) {
+                salida.setText("Se ha agregado correctamente");
+            }else{
+                salida.setText("No se ha agregado");
+            }
+        } else {
+            salida.setText("Por favor complete todos los campos antes de agregar el contacto");
+        }
     }//GEN-LAST:event_agregarActionPerformed
 
     private void apellidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellidosActionPerformed
@@ -500,16 +510,16 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_apellidosActionPerformed
 
     private void consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultarActionPerformed
-       ArrayList<CContacto> lista = new ArrayList<>(); 
-        lista=c.consultar(); 
+        ArrayList<CContacto> lista = new ArrayList<>();
+        lista = c.consultar();
         //limpio la tabla antes de llevar los valores
-        modelo.setRowCount(0);      
-        
+        modelo.setRowCount(0);
+
         //ponemos la lista en la tabla
-         for(CContacto con: lista){           
-            modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(),con.getDireccion(), con.getTelefono(), con.getEmail()});          
+        for (CContacto con : lista) {
+            modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
         }
-         
+
     }//GEN-LAST:event_consultarActionPerformed
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
@@ -517,24 +527,15 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_emailActionPerformed
 
     private void BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BorrarActionPerformed
-        Connection con = conectar();
-        if (con != null) {
-            if (!telefono.getText().isEmpty()) {
-                String query = "DELETE FROM datos WHERE telefono = '" + telefono.getText() + "';";
-                try {
-                    // preparo la consulta
-                    PreparedStatement preparar = con.prepareStatement(query);
-                    // ejecuto la consulta
-                    preparar.executeUpdate();
-                    salida.setText("Contacto eliminado correctamente.");
-                } catch (SQLException ex) {
-                    salida.setText("Error al eliminar el contacto.");
-                }
+        if (!telefono.getText().isEmpty()) {
+            boolean bandera = c.borrar(telefono.getText());
+            if (bandera) {
+                salida.setText("Se ha borrado correctamente el contacto");
             } else {
-                salida.setText("No hay telefono");
+                salida.setText("No se pudo borrar el contacto");
             }
         } else {
-            salida.setText("Error conexión incorrecta.");
+            salida.setText("Ingrese un telefono");
         }
     }//GEN-LAST:event_BorrarActionPerformed
 
