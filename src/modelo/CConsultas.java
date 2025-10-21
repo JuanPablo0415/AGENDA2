@@ -86,8 +86,61 @@ public class CConsultas {
             return false;
         }
     }//fin de la funcion borrar
-    
-    
-    
-    
-}//fin de la clase
+
+    public boolean editar(Connection con, String nombres, String apellidos, String telefono, String direccion, String email) {
+        this.con = con;
+        String query = "UPDATE datos SET nombres='" + nombres
+                + "', apellidos='" + apellidos
+                + "', telefono='" + telefono
+                + "', direccion='" + direccion
+                + "' WHERE email='" + email + "';";
+        try {
+            //preparo la consulta
+            PreparedStatement preparar = con.prepareStatement(query);
+            //ejecuto la consulta luego de prepararla
+            int v = preparar.executeUpdate();
+            if (v > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error en el sql");
+            return false;
+        }
+
+    }//fin de la funcion editar
+
+    public ArrayList<CContacto> listarporciudad(Connection con, String direccion) {
+        this.con = con;
+        String query = "SELECT * FROM datos WHERE direccion LIKE '%" + direccion + "%'";
+        ArrayList<CContacto> listaciudad = new ArrayList<>();
+        try {
+            
+            PreparedStatement preparar = con.prepareStatement(query);
+            ResultSet resultado = preparar.executeQuery();
+            
+            
+             while (resultado.next()) {
+                CContacto c = new CContacto(
+                        resultado.getInt("id"),
+                        resultado.getString("nombres"),
+                        resultado.getString("apellidos"),
+                        resultado.getString("direccion"),
+                        resultado.getString("telefono"),
+                        resultado.getString("email")
+                );
+                listaciudad.add(c);
+                
+            }
+            System.out.println("Consulta correcta");
+            return listaciudad;
+
+        } catch (SQLException ex) {
+            System.out.println("Error en el sql");
+            return null;
+            }
+        
+        }//fin de la funcion listar por ciudad
+
+    }//fin de la clase

@@ -497,7 +497,7 @@ public class interfaz extends javax.swing.JFrame {
             boolean bandera = c.insertar(nombres.getText(), apellidos.getText(), telefono.getText(), direccion.getText(), email.getText());
             if (bandera) {
                 salida.setText("Se ha agregado correctamente");
-            }else{
+            } else {
                 salida.setText("No se ha agregado");
             }
         } else {
@@ -540,125 +540,49 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_BorrarActionPerformed
 
     private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
-        Connection con = conectar();
-        if (con != null) {
-            if (!nombres.getText().isEmpty()
-                    && !apellidos.getText().isEmpty()
-                    && !telefono.getText().isEmpty()
-                    && !direccion.getText().isEmpty()
-                    && !email.getText().isEmpty()) {
-
-                String query = "UPDATE datos SET nombres='" + nombres.getText()
-                        + "', apellidos='" + apellidos.getText()
-                        + "', telefono='" + telefono.getText()
-                        + "', direccion='" + direccion.getText()
-                        + "' WHERE email='" + email.getText() + "';";
-
-                try {
-                    // preparo la consulta
-                    PreparedStatement preparar = con.prepareStatement(query);
-                    // ejecuto la consulta
-                    preparar.executeUpdate();
-                    salida.setText("Contacto se ha actualizado correctamente");
-                } catch (SQLException ex) {
-                    salida.setText("Error al intentear actualizar el contacto");
-                }
+        if (!nombres.getText().isEmpty()
+                && !apellidos.getText().isEmpty()
+                && !telefono.getText().isEmpty()
+                && !direccion.getText().isEmpty()
+                && !email.getText().isEmpty()) {
+            boolean bandera = c.editar(nombres.getText(), apellidos.getText(), telefono.getText(), direccion.getText(), email.getText());
+            if (bandera) {
+                salida.setText("Se ha editado correctamente el contacto");
             } else {
-                salida.setText("No hay datos para actualizar, los campos estan vacios");
+                salida.setText("No se pudo editar el contacto");
             }
         } else {
-            salida.setText("Error conexión incorrecta.");
+            salida.setText("No hay datos para actualizar, los campos estan vacios");
         }
+
     }//GEN-LAST:event_editarActionPerformed
 
     private void listarciudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarciudadActionPerformed
-        // Limpio la tabla antes de mostrar nuevos resultados
+        //limpio la tabla antes de llenar valores
         modelo.setRowCount(0);
-        Connection con = conectar();
+        if (!direccion.getText().isEmpty()) {
+            
+            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+            ArrayList<CContacto> listaciudad = new ArrayList<>();
+            listaciudad = c.listarporciudad(direccion.getText());
 
-        if (con != null) {
-            if (!direccion.getText().isEmpty()) {
-                String query = "SELECT * FROM datos WHERE direccion LIKE '%" + direccion.getText() + "%'";
-
-                try {
-                    PreparedStatement preparar = con.prepareStatement(query);
-                    ResultSet resultado = preparar.executeQuery();
-
-                    //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
-                    while (resultado.next()) {
-                        modelo.addRow(new Object[]{resultado.getInt("id"), resultado.getString("nombres"), resultado.getString("apellidos"), resultado.getString("telefono"), resultado.getString("direccion"), resultado.getString("email")});
-                    }
-
-                    // Mostrar mensaje según el resultado
-                    if (modelo.getRowCount() == 0) {
-                        salida.setText("No se encontraron contactos en esa ciudad.");
-                    } else {
-                        salida.setText("Contactos encontrados: " + modelo.getRowCount());
-                    }
-
-                    preparar.close();
-                    con.close();
-
-                } catch (SQLException ex) {
-                    salida.setText("Error al listar los contactos: " + ex.getMessage());
-                }
-
-            } else {
-                salida.setText("Debe ingresar una ciudad para buscar.");
+            //ponemos la lista en la tabla
+            for (CContacto con : listaciudad) {
+                modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
             }
 
+            // Mostrar mensaje según el resultado
+            if (modelo.getRowCount() == 0) {
+                salida.setText("No se encontraron contactos en esa ciudad.");
+            } else {
+                salida.setText("Contactos encontrados: " + modelo.getRowCount());
+            }
         } else {
-            salida.setText("Error: conexión incorrecta.");
+            salida.setText("Debe ingresar una ciudad para buscar.");
         }
-
     }//GEN-LAST:event_listarciudadActionPerformed
 
     private void listarrangoidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarrangoidActionPerformed
-        // Limpiar la tabla antes de mostrar nuevos resultados
-        modelo.setRowCount(0);
-        Connection con = conectar();
-
-        String idInicio = idinicial.getText().trim();
-        String idFin = idfinal.getText().trim();
-
-        if (con != null) {
-            // Validar que ambos campos tengan datos
-            if (!idInicio.isEmpty() && !idFin.isEmpty()) {
-                try {
-                    int idInicioVal = Integer.parseInt(idInicio);
-                    int idFinVal = Integer.parseInt(idFin);
-
-                    String query = "SELECT * FROM datos WHERE id BETWEEN " + idInicioVal + " AND " + idFinVal;
-
-                    PreparedStatement preparar = con.prepareStatement(query);
-                    ResultSet resultado = preparar.executeQuery();
-
-                    while (resultado.next()) {
-                        modelo.addRow(new Object[]{resultado.getInt("id"), resultado.getString("nombres"), resultado.getString("apellidos"), resultado.getString("telefono"), resultado.getString("direccion"), resultado.getString("email")});
-                    }
-
-                    if (modelo.getRowCount() == 0) {
-                        salida.setText("No se encontraron contactos en el rango especificado.");
-                    } else {
-                        salida.setText("Contactos encontrados: " + modelo.getRowCount());
-                    }
-
-                    preparar.close();
-                    con.close();
-
-                } catch (NumberFormatException e) {
-                    salida.setText("Por favor ingrese valores numéricos válidos para los Ids.");
-                } catch (SQLException ex) {
-                    salida.setText("Error al listar los contactos: " + ex.getMessage());
-                }
-
-            } else {
-                salida.setText("Debe ingresar ambos valores de ID (inicio y fin).");
-            }
-
-        } else {
-            salida.setText("Error: conexión incorrecta.");
-        }
 
     }//GEN-LAST:event_listarrangoidActionPerformed
 
@@ -667,334 +591,42 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_idinicialActionPerformed
 
     private void buscarnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarnombreActionPerformed
-        // Limpio la tabla antes de mostrar nuevos resultados
-        modelo.setRowCount(0);
-        Connection con = conectar();
-
-        if (con != null) {
-            if (!nombres.getText().isEmpty()) {
-                String query = "SELECT * FROM datos WHERE nombres LIKE '" + nombres.getText() + "%';";
-
-                try {
-                    PreparedStatement preparar = con.prepareStatement(query);
-                    ResultSet resultado = preparar.executeQuery();
-
-                    while (resultado.next()) {
-                        modelo.addRow(new Object[]{resultado.getInt("id"), resultado.getString("nombres"), resultado.getString("apellidos"), resultado.getString("telefono"), resultado.getString("direccion"), resultado.getString("email")});
-                    }
-
-                    // Mostrar mensaje según el resultado
-                    if (modelo.getRowCount() == 0) {
-                        salida.setText("No se encontraron contactos con esos nombres");
-                    } else {
-                        salida.setText("Contactos encontrados: " + modelo.getRowCount());
-                    }
-
-                    preparar.close();
-                    con.close();
-
-                } catch (SQLException ex) {
-                    salida.setText("Error al listar los contactos: " + ex.getMessage());
-                }
-
-            } else {
-                salida.setText("Debe ingresar un nombre para buscar.");
-            }
-
-        } else {
-            salida.setText("Error: conexión incorrecta.");
-        }
 
     }//GEN-LAST:event_buscarnombreActionPerformed
 
     private void buscarapellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarapellidoActionPerformed
-        // Limpio la tabla antes de mostrar nuevos resultados
-        modelo.setRowCount(0);
-        Connection con = conectar();
-
-        if (con != null) {
-            if (!apellidos.getText().isEmpty()) {
-                String query = "SELECT * FROM datos WHERE apellidos LIKE '" + apellidos.getText() + "%';";
-
-                try {
-                    PreparedStatement preparar = con.prepareStatement(query);
-                    ResultSet resultado = preparar.executeQuery();
-
-                    while (resultado.next()) {
-                        modelo.addRow(new Object[]{resultado.getInt("id"), resultado.getString("nombres"), resultado.getString("apellidos"), resultado.getString("telefono"), resultado.getString("direccion"), resultado.getString("email")});
-                    }
-
-                    // Mostrar mensaje según el resultado
-                    if (modelo.getRowCount() == 0) {
-                        salida.setText("No se encontraron contactos con esos apellidos");
-                    } else {
-                        salida.setText("Contactos encontrados: " + modelo.getRowCount());
-                    }
-
-                    preparar.close();
-                    con.close();
-
-                } catch (SQLException ex) {
-                    salida.setText("Error al listar los contactos: " + ex.getMessage());
-                }
-
-            } else {
-                salida.setText("Debe ingresar apellido para buscar.");
-            }
-
-        } else {
-            salida.setText("Error: conexión incorrecta.");
-        }
 
     }//GEN-LAST:event_buscarapellidoActionPerformed
 
     private void buscaridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscaridActionPerformed
-        // Limpio la tabla antes de mostrar nuevos resultados
-        modelo.setRowCount(0);
-        Connection con = conectar();
 
-        if (con != null) {
-            if (!id.getText().isEmpty()) {
-                String query = "SELECT * FROM datos WHERE id LIKE '" + id.getText() + "';";
-
-                try {
-                    PreparedStatement preparar = con.prepareStatement(query);
-                    ResultSet resultado = preparar.executeQuery();
-
-                    while (resultado.next()) {
-                        modelo.addRow(new Object[]{resultado.getInt("id"), resultado.getString("nombres"), resultado.getString("apellidos"), resultado.getString("telefono"), resultado.getString("direccion"), resultado.getString("email")});
-                    }
-
-                    // Mostrar mensaje según el resultado
-                    if (modelo.getRowCount() == 0) {
-                        salida.setText("No se encontraron contactos con ese id");
-                    } else {
-                        salida.setText("Contactos encontrados: " + modelo.getRowCount());
-                    }
-
-                    preparar.close();
-                    con.close();
-
-                } catch (SQLException ex) {
-                    salida.setText("Error al listar los contactos: " + ex.getMessage());
-                }
-
-            } else {
-                salida.setText("Debe ingresar un id para buscar");
-            }
-
-        } else {
-            salida.setText("Error: conexión incorrecta.");
-        }
     }//GEN-LAST:event_buscaridActionPerformed
 
     private void listarcallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarcallesActionPerformed
-        // Limpio la tabla antes de mostrar nuevos resultados
-        modelo.setRowCount(0);
-        Connection con = conectar();
 
-        if (con != null) {
-            String query = "SELECT * FROM datos WHERE direccion LIKE 'CL%';";
-
-            try {
-                PreparedStatement preparar = con.prepareStatement(query);
-                ResultSet resultado = preparar.executeQuery();
-
-                while (resultado.next()) {
-                    modelo.addRow(new Object[]{resultado.getInt("id"), resultado.getString("nombres"), resultado.getString("apellidos"), resultado.getString("telefono"), resultado.getString("direccion"), resultado.getString("email")});
-                }
-
-                salida.setText("Contactos encontrados: " + modelo.getRowCount());
-
-                preparar.close();
-                con.close();
-
-            } catch (SQLException ex) {
-                salida.setText("Error al listar los contactos: " + ex.getMessage());
-            }
-
-        } else {
-            salida.setText("Error: conexión incorrecta.");
-        }
     }//GEN-LAST:event_listarcallesActionPerformed
 
     private void listarcarrerasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarcarrerasActionPerformed
-        // Limpio la tabla antes de mostrar nuevos resultados
-        modelo.setRowCount(0);
-        Connection con = conectar();
 
-        if (con != null) {
-            String query = "SELECT * FROM datos WHERE direccion LIKE 'Cra%';";
-
-            try {
-                PreparedStatement preparar = con.prepareStatement(query);
-                ResultSet resultado = preparar.executeQuery();
-
-                while (resultado.next()) {
-                    modelo.addRow(new Object[]{resultado.getInt("id"), resultado.getString("nombres"), resultado.getString("apellidos"), resultado.getString("telefono"), resultado.getString("direccion"), resultado.getString("email")});
-                }
-
-                salida.setText("Contactos encontrados: " + modelo.getRowCount());
-
-                preparar.close();
-                con.close();
-
-            } catch (SQLException ex) {
-                salida.setText("Error al listar los contactos: " + ex.getMessage());
-            }
-
-        } else {
-            salida.setText("Error: conexión incorrecta.");
-        }
     }//GEN-LAST:event_listarcarrerasActionPerformed
 
     private void listarprefijoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarprefijoActionPerformed
-        // Limpio la tabla antes de mostrar nuevos resultados
-        modelo.setRowCount(0);
-        Connection con = conectar();
 
-        if (con != null) {
-            if (!telefono.getText().isEmpty()) {
-                String query = "SELECT * FROM datos WHERE telefono LIKE '" + telefono.getText() + "%';";
-
-                try {
-                    PreparedStatement preparar = con.prepareStatement(query);
-                    ResultSet resultado = preparar.executeQuery();
-
-                    while (resultado.next()) {
-                        modelo.addRow(new Object[]{resultado.getInt("id"), resultado.getString("nombres"), resultado.getString("apellidos"), resultado.getString("telefono"), resultado.getString("direccion"), resultado.getString("email")});
-                    }
-
-                    // Mostrar mensaje según el resultado
-                    if (modelo.getRowCount() == 0) {
-                        salida.setText("No se encontraron contactos con este prefijo");
-                    } else {
-                        salida.setText("Contactos encontrados: " + modelo.getRowCount());
-                    }
-
-                    preparar.close();
-                    con.close();
-
-                } catch (SQLException ex) {
-                    salida.setText("Error al listar los contactos: " + ex.getMessage());
-                }
-
-            } else {
-                salida.setText("Debe ingresar un telefono o prefijo para bucar");
-            }
-
-        } else {
-            salida.setText("Error: conexión incorrecta.");
-        }
     }//GEN-LAST:event_listarprefijoActionPerformed
 
     private void listaralfaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaralfaActionPerformed
-        //limpio la tabla antes de llevar los valores
-        modelo.setRowCount(0);
-        Connection con = conectar();
-        String query = "SELECT * FROM datos ORDER BY nombres;";
-        try {
-            //preparo la consulta
-            PreparedStatement preparar = con.prepareStatement(query);
-            //ejecuto la consulta luego de prepararla, como es un select devuelve una lista de tipo ResultSet
-            ResultSet resultado = preparar.executeQuery();
-            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
-            while (resultado.next()) {
-                modelo.addRow(new Object[]{resultado.getInt("id"), resultado.getString("nombres"), resultado.getString("apellidos"), resultado.getString("telefono"), resultado.getString("direccion"), resultado.getString("email")});
-            }
-        } catch (SQLException ex) {
-            salida.setText("Error en el sql");
-        }
+
     }//GEN-LAST:event_listaralfaActionPerformed
 
     private void listaridparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaridparActionPerformed
-        //limpio la tabla antes de llevar los valores
-        modelo.setRowCount(0);
-        Connection con = conectar();
-        String query = "SELECT * FROM datos WHERE id %2=0;";
-        try {
-            //preparo la consulta
-            PreparedStatement preparar = con.prepareStatement(query);
-            //ejecuto la consulta luego de prepararla, como es un select devuelve una lista de tipo ResultSet
-            ResultSet resultado = preparar.executeQuery();
-            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
-            while (resultado.next()) {
-                modelo.addRow(new Object[]{resultado.getInt("id"), resultado.getString("nombres"), resultado.getString("apellidos"), resultado.getString("telefono"), resultado.getString("direccion"), resultado.getString("email")});
-            }
-        } catch (SQLException ex) {
-            salida.setText("Error en el sql");
-        }
+
     }//GEN-LAST:event_listaridparActionPerformed
 
     private void listaridimparesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaridimparesActionPerformed
-        //limpio la tabla antes de llevar los valores
-        modelo.setRowCount(0);
-        Connection con = conectar();
-        String query = "SELECT * FROM datos WHERE id %2!=0;";
-        try {
-            //preparo la consulta
-            PreparedStatement preparar = con.prepareStatement(query);
-            //ejecuto la consulta luego de prepararla, como es un select devuelve una lista de tipo ResultSet
-            ResultSet resultado = preparar.executeQuery();
-            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
-            while (resultado.next()) {
-                modelo.addRow(new Object[]{resultado.getInt("id"), resultado.getString("nombres"), resultado.getString("apellidos"), resultado.getString("telefono"), resultado.getString("direccion"), resultado.getString("email")});
-            }
-        } catch (SQLException ex) {
-            salida.setText("Error en el sql");
-        }
+
     }//GEN-LAST:event_listaridimparesActionPerformed
 
     private void listarcampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarcampoActionPerformed
-        //tomar la poscion de la opcion seleccionada por el usuario
-        //int opcion = uncampo.getSelectedIndex();
-        String seleccion = (String) uncampo.getSelectedItem();
-        //limpio la tabla antes de llevar los valores
-        modelo.setRowCount(0);
-        Connection con = conectar();
-        String query = "SELECT " + seleccion + " FROM datos;";
-
-        try {
-            //preparo la consulta
-            PreparedStatement preparar = con.prepareStatement(query);
-            //ejecuto la consulta luego de prepararla, como es un select devuelve una lista de tipo ResultSet
-            ResultSet resultado = preparar.executeQuery();
-            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
-
-            if (seleccion.equals("id")) {
-                while (resultado.next()) {
-                    modelo.addRow(new Object[]{resultado.getInt("id"), (""), (""), (""), (""), ("")});
-                }
-            }
-            if (seleccion.equals("nombres")) {
-                while (resultado.next()) {
-                    modelo.addRow(new Object[]{(""), resultado.getString("nombres"), (""), (""), (""), ("")});
-                }
-            }
-            if (seleccion.equals("apellidos")) {
-                while (resultado.next()) {
-                    modelo.addRow(new Object[]{(""), (""), resultado.getString("apellidos"), (""), (""), ("")});
-                }
-            }
-            if (seleccion.equals("telefono")) {
-                while (resultado.next()) {
-                    modelo.addRow(new Object[]{(""), (""), (""), resultado.getString("telefono"), (""), ("")});
-                }
-            }
-            if (seleccion.equals("direccion")) {
-                while (resultado.next()) {
-                    modelo.addRow(new Object[]{(""), (""), (""), (""), resultado.getString("direccion"), ("")});
-                }
-            }
-            if (seleccion.equals("email")) {
-                while (resultado.next()) {
-                    modelo.addRow(new Object[]{(""), (""), (""), (""), (""), resultado.getString("email")});
-                }
-            }
-
-        } catch (SQLException ex) {
-            salida.setText("Error en el sql");
-        }
 
     }//GEN-LAST:event_listarcampoActionPerformed
 

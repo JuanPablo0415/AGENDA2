@@ -49,5 +49,23 @@ public class CControl {
         return bandera;
     }
     
+    public boolean editar(String nombres, String apellidos, String telefono, String direccion, String email){
+        conecta= con.conectar();
+        boolean bandera = consulta.editar(conecta, nombres, apellidos, telefono, direccion, email);
+        con.desconectar(conecta);
+        return bandera;
+    }
+    
+     public ArrayList<CContacto> listarporciudad(String direccion) {
+        ArrayList<CContacto> listaciudad = new ArrayList<>();
+        conecta = con.conectar();
+        if (conecta != null) {
+            listaciudad = consulta.listarporciudad(conecta,direccion);
+            con.desconectar(conecta);
+            return listaciudad;
+        } else {
+            return null;
+        }
+    }
    
 }//fin de la clase
