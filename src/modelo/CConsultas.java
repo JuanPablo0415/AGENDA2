@@ -116,12 +116,11 @@ public class CConsultas {
         String query = "SELECT * FROM datos WHERE direccion LIKE '%" + direccion + "%'";
         ArrayList<CContacto> listaciudad = new ArrayList<>();
         try {
-            
+
             PreparedStatement preparar = con.prepareStatement(query);
             ResultSet resultado = preparar.executeQuery();
-            
-            
-             while (resultado.next()) {
+
+            while (resultado.next()) {
                 CContacto c = new CContacto(
                         resultado.getInt("id"),
                         resultado.getString("nombres"),
@@ -131,7 +130,7 @@ public class CConsultas {
                         resultado.getString("email")
                 );
                 listaciudad.add(c);
-                
+
             }
             System.out.println("Consulta correcta");
             return listaciudad;
@@ -139,8 +138,104 @@ public class CConsultas {
         } catch (SQLException ex) {
             System.out.println("Error en el sql");
             return null;
-            }
-        
-        }//fin de la funcion listar por ciudad
+        }
 
-    }//fin de la clase
+    }//fin de la funcion listar por ciudad
+
+    public ArrayList<CContacto> listarrangoid(Connection con, int idInicioVal, int idFinVal) {
+        this.con = con;
+        String query = "SELECT * FROM datos WHERE id BETWEEN " + idInicioVal + " AND " + idFinVal;
+        ArrayList<CContacto> listaid = new ArrayList<>();
+
+        try {
+
+            PreparedStatement preparar = con.prepareStatement(query);
+            ResultSet resultado = preparar.executeQuery();
+
+            while (resultado.next()) {
+                CContacto c = new CContacto(
+                        resultado.getInt("id"),
+                        resultado.getString("nombres"),
+                        resultado.getString("apellidos"),
+                        resultado.getString("direccion"),
+                        resultado.getString("telefono"),
+                        resultado.getString("email")
+                );
+                listaid.add(c);
+
+            }
+            System.out.println("Consulta correcta");
+            return listaid;
+
+        } catch (SQLException ex) {
+            System.out.println("Error en el sql");
+            return null;
+        }
+
+    }//fin de la funcion listar rango id
+
+    
+    public ArrayList<CContacto> buscarpornombre (Connection con, String nombres){
+        this.con=con;
+        String query= "SELECT *  FROM datos WHERE  nombres LIKE '" + nombres + "%';";
+        ArrayList<CContacto> listanombres = new ArrayList<>();
+
+        try {
+
+            PreparedStatement preparar = con.prepareStatement(query);
+            ResultSet resultado = preparar.executeQuery();
+
+            while (resultado.next()) {
+                CContacto c = new CContacto(
+                        resultado.getInt("id"),
+                        resultado.getString("nombres"),
+                        resultado.getString("apellidos"),
+                        resultado.getString("direccion"),
+                        resultado.getString("telefono"),
+                        resultado.getString("email")
+                );
+                listanombres.add(c);
+
+            }
+            System.out.println("Consulta correcta");
+            return listanombres;
+
+        } catch (SQLException ex) {
+            System.out.println("Error en el sql");
+            return null;
+        }
+    }// fin de la funcion listar por nombres
+    
+    
+       public ArrayList<CContacto> buscarporapellido (Connection con, String apellidos){
+        this.con=con;
+        String query= "SELECT *  FROM datos WHERE  apellidos LIKE '" + apellidos + "%';";
+        ArrayList<CContacto> listaapellidos = new ArrayList<>();
+
+        try {
+
+            PreparedStatement preparar = con.prepareStatement(query);
+            ResultSet resultado = preparar.executeQuery();
+
+            while (resultado.next()) {
+                CContacto c = new CContacto(
+                        resultado.getInt("id"),
+                        resultado.getString("nombres"),
+                        resultado.getString("apellidos"),
+                        resultado.getString("direccion"),
+                        resultado.getString("telefono"),
+                        resultado.getString("email")
+                );
+                listaapellidos.add(c);
+
+            }
+            System.out.println("Consulta correcta");
+            return listaapellidos;
+
+        } catch (SQLException ex) {
+            System.out.println("Error en el sql");
+            return null;
+        }
+    }// fin de la funcion listar por apellido
+    
+}//fin de la clase

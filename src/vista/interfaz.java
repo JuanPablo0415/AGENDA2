@@ -561,7 +561,7 @@ public class interfaz extends javax.swing.JFrame {
         //limpio la tabla antes de llenar valores
         modelo.setRowCount(0);
         if (!direccion.getText().isEmpty()) {
-            
+
             //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
             ArrayList<CContacto> listaciudad = new ArrayList<>();
             listaciudad = c.listarporciudad(direccion.getText());
@@ -583,6 +583,38 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_listarciudadActionPerformed
 
     private void listarrangoidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarrangoidActionPerformed
+        // Limpiar la tabla antes de mostrar nuevos resultados
+        modelo.setRowCount(0);
+
+        String idInicio = idinicial.getText().trim();
+        String idFin = idfinal.getText().trim();
+
+        if (!idInicio.isEmpty() && !idFin.isEmpty()) {
+            try {
+                int idInicioVal = Integer.parseInt(idInicio);
+                int idFinVal = Integer.parseInt(idFin);
+                //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+                ArrayList<CContacto> listaid = new ArrayList<>();
+                listaid = c.listarrangoid(idInicioVal, idFinVal);
+
+                //ponemos la lista en la tabla
+                for (CContacto con : listaid) {
+                    modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
+                }
+
+                // Mostrar mensaje según el resultado
+                if (modelo.getRowCount() == 0) {
+                    salida.setText("No se encontraron contactos en ese rango de id.");
+                } else {
+                    salida.setText("Contactos encontrados: " + modelo.getRowCount());
+                }
+            } catch (NumberFormatException e) {
+                salida.setText("Por favor ingrese valores numéricos válidos para los Ids.");
+            }
+
+        } else {
+            salida.setText("Debe ingresar ambos valores de ID (inicio y fin)");
+        }
 
     }//GEN-LAST:event_listarrangoidActionPerformed
 
@@ -591,11 +623,57 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_idinicialActionPerformed
 
     private void buscarnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarnombreActionPerformed
+        // Limpio la tabla antes de mostrar nuevos resultados
+        modelo.setRowCount(0);
+
+        if (!nombres.getText().isEmpty()) {
+
+            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+            ArrayList<CContacto> listanombres = new ArrayList<>();
+            listanombres = c.buscarpornombres(nombres.getText());
+
+            //ponemos la lista en la tabla
+            for (CContacto con : listanombres) {
+                modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
+            }
+
+            // Mostrar mensaje según el resultado
+            if (modelo.getRowCount() == 0) {
+                salida.setText("No se encontraron contactos con ese nombre");
+            } else {
+                salida.setText("Contactos encontrados: " + modelo.getRowCount());
+            }
+        } else {
+            salida.setText("Debe ingresar un nombre para buscar");
+        }
+
 
     }//GEN-LAST:event_buscarnombreActionPerformed
 
     private void buscarapellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarapellidoActionPerformed
+ // Limpio la tabla antes de mostrar nuevos resultados
+        modelo.setRowCount(0);
 
+        if (!apellidos.getText().isEmpty()) {
+
+            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+            ArrayList<CContacto> listaapellidos = new ArrayList<>();
+            listaapellidos = c.buscarporapellidos(apellidos.getText());
+
+            //ponemos la lista en la tabla
+            for (CContacto con : listaapellidos) {
+                modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
+            }
+
+            // Mostrar mensaje según el resultado
+            if (modelo.getRowCount() == 0) {
+                salida.setText("No se encontraron contactos con ese apellido");
+            } else {
+                salida.setText("Contactos encontrados: " + modelo.getRowCount());
+            }
+        } else {
+            salida.setText("Debe ingresar un apellido para buscar");
+        }
     }//GEN-LAST:event_buscarapellidoActionPerformed
 
     private void buscaridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscaridActionPerformed

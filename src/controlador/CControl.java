@@ -67,5 +67,46 @@ public class CControl {
             return null;
         }
     }
+     
+     
+    public ArrayList<CContacto> listarrangoid(int idInicioVal, int idFinVal){
+      ArrayList<CContacto> listaid = new ArrayList<>();
+        conecta = con.conectar();
+        if (conecta != null) {
+            listaid = consulta.listarrangoid(conecta, idInicioVal, idFinVal);
+            con.desconectar(conecta);
+            return listaid;
+        } else {
+            return null;
+        }   
+    }
+    
+    
+    public ArrayList<CContacto> buscarpornombres (String nombres){
+           ArrayList<CContacto> listanombres = new ArrayList<>();
+        conecta = con.conectar();
+        if (conecta != null) {
+            listanombres = consulta.buscarpornombre(conecta, nombres);
+            con.desconectar(conecta);
+            return listanombres;
+        } else {
+            return null;
+        }
+    }
+    
+    
+    public ArrayList<CContacto> buscarporapellidos(String apellidos){
+           ArrayList<CContacto> listaapellidos = new ArrayList<>();
+        conecta = con.conectar();
+        if (conecta != null) {
+            listaapellidos = consulta.buscarporapellido(conecta, apellidos);
+            con.desconectar(conecta);
+            return listaapellidos;
+        } else {
+            return null;
+        }
+    }
+    
+    
    
 }//fin de la clase
