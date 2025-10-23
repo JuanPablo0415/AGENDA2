@@ -107,6 +107,53 @@ public class CControl {
         }
     }
     
+    public ArrayList<CContacto> buscarporid (String id){
+        ArrayList<CContacto> listaid2 =new ArrayList<>();
+        conecta=con.conectar();
+        if(conecta!=null){
+            listaid2=consulta.buscarporid(conecta, id);
+            con.desconectar(conecta);
+            return listaid2;
+        }else{
+            return null;
+        } 
+    }
     
+    
+     public ArrayList<CContacto> listarporCL (){
+        ArrayList<CContacto> listaCL =new ArrayList<>();
+        conecta=con.conectar();
+        if(conecta!=null){
+            listaCL=consulta.listarporcalle(conecta);
+            con.desconectar(conecta);
+            return listaCL;
+        }else{
+            return null;
+        }
+    }
+    
+     public ArrayList<CContacto> listarporCra (){
+        ArrayList<CContacto> listaCra =new ArrayList<>();
+        conecta=con.conectar();
+        if(conecta!=null){
+            listaCra=consulta.listarporcarrera(conecta);
+            con.desconectar(conecta);
+            return listaCra;
+        }else{
+            return null;
+        }
+    }
+    
+     public ArrayList<CContacto> listarporprefijo (String telefono){
+        ArrayList<CContacto> listaprefijo =new ArrayList<>();
+        conecta=con.conectar();
+        if(conecta!=null){
+            listaprefijo=consulta.listarporprefijo(conecta, telefono);
+            con.desconectar(conecta);
+            return listaprefijo;
+        }else{
+            return null;
+        }
+    }
    
 }//fin de la clase

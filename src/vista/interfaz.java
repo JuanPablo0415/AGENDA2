@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package vista;
 
 import javax.swing.table.DefaultTableModel;
@@ -13,6 +10,7 @@ import modelo.CContacto;
  *
  * @author juanp
  */
+
 public class interfaz extends javax.swing.JFrame {
 
     //modelo para manipular la tabla
@@ -562,11 +560,10 @@ public class interfaz extends javax.swing.JFrame {
         modelo.setRowCount(0);
         if (!direccion.getText().isEmpty()) {
 
-            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
             ArrayList<CContacto> listaciudad = new ArrayList<>();
             listaciudad = c.listarporciudad(direccion.getText());
 
-            //ponemos la lista en la tabla
+            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
             for (CContacto con : listaciudad) {
                 modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
             }
@@ -593,11 +590,11 @@ public class interfaz extends javax.swing.JFrame {
             try {
                 int idInicioVal = Integer.parseInt(idInicio);
                 int idFinVal = Integer.parseInt(idFin);
-                //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+
                 ArrayList<CContacto> listaid = new ArrayList<>();
                 listaid = c.listarrangoid(idInicioVal, idFinVal);
 
-                //ponemos la lista en la tabla
+                //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
                 for (CContacto con : listaid) {
                     modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
                 }
@@ -628,11 +625,10 @@ public class interfaz extends javax.swing.JFrame {
 
         if (!nombres.getText().isEmpty()) {
 
-            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
             ArrayList<CContacto> listanombres = new ArrayList<>();
             listanombres = c.buscarpornombres(nombres.getText());
 
-            //ponemos la lista en la tabla
+            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
             for (CContacto con : listanombres) {
                 modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
             }
@@ -651,16 +647,15 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarnombreActionPerformed
 
     private void buscarapellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarapellidoActionPerformed
- // Limpio la tabla antes de mostrar nuevos resultados
+        // Limpio la tabla antes de mostrar nuevos resultados
         modelo.setRowCount(0);
 
         if (!apellidos.getText().isEmpty()) {
 
-            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
             ArrayList<CContacto> listaapellidos = new ArrayList<>();
             listaapellidos = c.buscarporapellidos(apellidos.getText());
 
-            //ponemos la lista en la tabla
+            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
             for (CContacto con : listaapellidos) {
                 modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
             }
@@ -677,19 +672,90 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarapellidoActionPerformed
 
     private void buscaridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscaridActionPerformed
+        modelo.setRowCount(0);
+
+        if (!id.getText().isEmpty()) {
+            ArrayList<CContacto> listaid3 = new ArrayList<>();
+            listaid3 = c.buscarporid(id.getText());
+
+            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+            for (CContacto con : listaid3) {
+                modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
+            }
+
+            // Mostrar mensaje según el resultado
+            if (modelo.getRowCount() == 0) {
+                salida.setText("No se encontraron contactos con este id");
+            } else {
+                salida.setText("Contactos encontrados: " + modelo.getRowCount());
+            }
+        } else {
+            salida.setText("Debe ingresar un id para buscar");
+        }
+
 
     }//GEN-LAST:event_buscaridActionPerformed
 
     private void listarcallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarcallesActionPerformed
+        modelo.setRowCount(0);
 
+        ArrayList<CContacto> listaCL = new ArrayList<>();
+        listaCL = c.listarporCL();
+
+        //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+        for (CContacto con : listaCL) {
+            modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
+        }
+
+        // Mostrar mensaje según el resultado
+        if (modelo.getRowCount() == 0) {
+            salida.setText("No se encontraron contactos que vivan en calle");
+        } else {
+            salida.setText("Contactos encontrados: " + modelo.getRowCount());
+        }
     }//GEN-LAST:event_listarcallesActionPerformed
 
     private void listarcarrerasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarcarrerasActionPerformed
+        modelo.setRowCount(0);
 
+        ArrayList<CContacto> listaCra = new ArrayList<>();
+        listaCra = c.listarporCra();
+
+        //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+        for (CContacto con : listaCra) {
+            modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
+        }
+
+        // Mostrar mensaje según el resultado
+        if (modelo.getRowCount() == 0) {
+            salida.setText("No se encontraron contactos que vivan en carrera");
+        } else {
+            salida.setText("Contactos encontrados: " + modelo.getRowCount());
+        }
     }//GEN-LAST:event_listarcarrerasActionPerformed
 
     private void listarprefijoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarprefijoActionPerformed
+        modelo.setRowCount(0);
 
+        if (!telefono.getText().isEmpty()) {
+            ArrayList<CContacto> listaprefijo = new ArrayList<>();
+            listaprefijo = c.listarporprefijo(telefono.getText());
+
+            //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+            for (CContacto con : listaprefijo) {
+                modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
+            }
+
+            // Mostrar mensaje según el resultado
+            if (modelo.getRowCount() == 0) {
+                salida.setText("No se encontraron contactos con este prefijo");
+            } else {
+                salida.setText("Contactos encontrados: " + modelo.getRowCount());
+            }
+        } else {
+            salida.setText("Debe ingresar un prefijo para consultar");
+        }
+    
     }//GEN-LAST:event_listarprefijoActionPerformed
 
     private void listaralfaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaralfaActionPerformed
@@ -712,37 +778,37 @@ public class interfaz extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+    /* Set the Nimbus look and feel */
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+     */
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new interfaz().setVisible(true);
-            }
-        });
+    } catch (ClassNotFoundException ex) {
+        java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+        java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+        java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
+    //</editor-fold>
+
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new interfaz().setVisible(true);
+        }
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Borrar;
