@@ -1,4 +1,3 @@
-
 package vista;
 
 import javax.swing.table.DefaultTableModel;
@@ -10,7 +9,6 @@ import modelo.CContacto;
  *
  * @author juanp
  */
-
 public class interfaz extends javax.swing.JFrame {
 
     //modelo para manipular la tabla
@@ -755,19 +753,46 @@ public class interfaz extends javax.swing.JFrame {
         } else {
             salida.setText("Debe ingresar un prefijo para consultar");
         }
-    
+
     }//GEN-LAST:event_listarprefijoActionPerformed
 
     private void listaralfaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaralfaActionPerformed
+        modelo.setRowCount(0);
+        
+        ArrayList<CContacto> listaralfa=new ArrayList<>();
+         listaralfa = c.listarporalfa();
+
+        //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+        for (CContacto con : listaralfa) {
+            modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
+        }
 
     }//GEN-LAST:event_listaralfaActionPerformed
 
     private void listaridparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaridparActionPerformed
-
+    modelo.setRowCount(0);
+    
+    ArrayList<CContacto> listaridpar=new ArrayList<>();
+    listaridpar=c.listarporidpar();
+    
+    //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+        for (CContacto con : listaridpar) {
+            modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
+        }
+        
     }//GEN-LAST:event_listaridparActionPerformed
 
     private void listaridimparesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaridimparesActionPerformed
-
+  modelo.setRowCount(0);
+    
+    ArrayList<CContacto> listaridimpar=new ArrayList<>();
+    listaridimpar=c.listarporidimpar();
+    
+    //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+        for (CContacto con : listaridimpar) {
+            modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
+        }
+        
     }//GEN-LAST:event_listaridimparesActionPerformed
 
     private void listarcampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarcampoActionPerformed
@@ -778,37 +803,37 @@ public class interfaz extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    /* Set the Nimbus look and feel */
-    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-     */
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    } catch (ClassNotFoundException ex) {
-        java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (InstantiationException ex) {
-        java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (IllegalAccessException ex) {
-        java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-        java.util.logging.Logger.getLogger(interfaz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
-    //</editor-fold>
-    //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
-    /* Create and display the form */
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            new interfaz().setVisible(true);
-        }
-    });
-}
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new interfaz().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Borrar;

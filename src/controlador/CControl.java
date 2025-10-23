@@ -48,29 +48,28 @@ public class CControl {
         con.desconectar(conecta);
         return bandera;
     }
-    
-    public boolean editar(String nombres, String apellidos, String telefono, String direccion, String email){
-        conecta= con.conectar();
+
+    public boolean editar(String nombres, String apellidos, String telefono, String direccion, String email) {
+        conecta = con.conectar();
         boolean bandera = consulta.editar(conecta, nombres, apellidos, telefono, direccion, email);
         con.desconectar(conecta);
         return bandera;
     }
-    
-     public ArrayList<CContacto> listarporciudad(String direccion) {
+
+    public ArrayList<CContacto> listarporciudad(String direccion) {
         ArrayList<CContacto> listaciudad = new ArrayList<>();
         conecta = con.conectar();
         if (conecta != null) {
-            listaciudad = consulta.listarporciudad(conecta,direccion);
+            listaciudad = consulta.listarporciudad(conecta, direccion);
             con.desconectar(conecta);
             return listaciudad;
         } else {
             return null;
         }
     }
-     
-     
-    public ArrayList<CContacto> listarrangoid(int idInicioVal, int idFinVal){
-      ArrayList<CContacto> listaid = new ArrayList<>();
+
+    public ArrayList<CContacto> listarrangoid(int idInicioVal, int idFinVal) {
+        ArrayList<CContacto> listaid = new ArrayList<>();
         conecta = con.conectar();
         if (conecta != null) {
             listaid = consulta.listarrangoid(conecta, idInicioVal, idFinVal);
@@ -78,12 +77,11 @@ public class CControl {
             return listaid;
         } else {
             return null;
-        }   
+        }
     }
-    
-    
-    public ArrayList<CContacto> buscarpornombres (String nombres){
-           ArrayList<CContacto> listanombres = new ArrayList<>();
+
+    public ArrayList<CContacto> buscarpornombres(String nombres) {
+        ArrayList<CContacto> listanombres = new ArrayList<>();
         conecta = con.conectar();
         if (conecta != null) {
             listanombres = consulta.buscarpornombre(conecta, nombres);
@@ -93,10 +91,9 @@ public class CControl {
             return null;
         }
     }
-    
-    
-    public ArrayList<CContacto> buscarporapellidos(String apellidos){
-           ArrayList<CContacto> listaapellidos = new ArrayList<>();
+
+    public ArrayList<CContacto> buscarporapellidos(String apellidos) {
+        ArrayList<CContacto> listaapellidos = new ArrayList<>();
         conecta = con.conectar();
         if (conecta != null) {
             listaapellidos = consulta.buscarporapellido(conecta, apellidos);
@@ -106,54 +103,92 @@ public class CControl {
             return null;
         }
     }
-    
-    public ArrayList<CContacto> buscarporid (String id){
-        ArrayList<CContacto> listaid2 =new ArrayList<>();
-        conecta=con.conectar();
-        if(conecta!=null){
-            listaid2=consulta.buscarporid(conecta, id);
+
+    public ArrayList<CContacto> buscarporid(String id) {
+        ArrayList<CContacto> listaid2 = new ArrayList<>();
+        conecta = con.conectar();
+        if (conecta != null) {
+            listaid2 = consulta.buscarporid(conecta, id);
             con.desconectar(conecta);
             return listaid2;
-        }else{
+        } else {
             return null;
-        } 
+        }
     }
-    
-    
-     public ArrayList<CContacto> listarporCL (){
-        ArrayList<CContacto> listaCL =new ArrayList<>();
-        conecta=con.conectar();
-        if(conecta!=null){
-            listaCL=consulta.listarporcalle(conecta);
+
+    public ArrayList<CContacto> listarporCL() {
+        ArrayList<CContacto> listaCL = new ArrayList<>();
+        conecta = con.conectar();
+        if (conecta != null) {
+            listaCL = consulta.listarporcalle(conecta);
             con.desconectar(conecta);
             return listaCL;
-        }else{
+        } else {
             return null;
         }
     }
-    
-     public ArrayList<CContacto> listarporCra (){
-        ArrayList<CContacto> listaCra =new ArrayList<>();
-        conecta=con.conectar();
-        if(conecta!=null){
-            listaCra=consulta.listarporcarrera(conecta);
+
+    public ArrayList<CContacto> listarporCra() {
+        ArrayList<CContacto> listaCra = new ArrayList<>();
+        conecta = con.conectar();
+        if (conecta != null) {
+            listaCra = consulta.listarporcarrera(conecta);
             con.desconectar(conecta);
             return listaCra;
-        }else{
+        } else {
+            return null;
+        }
+    }
+
+    public ArrayList<CContacto> listarporprefijo(String telefono) {
+        ArrayList<CContacto> listaprefijo = new ArrayList<>();
+        conecta = con.conectar();
+        if (conecta != null) {
+            listaprefijo = consulta.listarporprefijo(conecta, telefono);
+            con.desconectar(conecta);
+            return listaprefijo;
+        } else {
+            return null;
+        }
+    }
+
+    public ArrayList<CContacto> listarporalfa() {
+        ArrayList<CContacto> listaalfa = new ArrayList<>();
+        conecta = con.conectar();
+        if (conecta != null) {
+            listaalfa = consulta.listarporalfa(conecta);
+            con.desconectar(conecta);
+            return listaalfa;
+        } else {
             return null;
         }
     }
     
-     public ArrayList<CContacto> listarporprefijo (String telefono){
-        ArrayList<CContacto> listaprefijo =new ArrayList<>();
-        conecta=con.conectar();
-        if(conecta!=null){
-            listaprefijo=consulta.listarporprefijo(conecta, telefono);
+    
+    public ArrayList<CContacto> listarporidpar() {
+        ArrayList<CContacto> listaidpar = new ArrayList<>();
+        conecta = con.conectar();
+        if (conecta != null) {
+            listaidpar = consulta.listarporidpar(conecta);
             con.desconectar(conecta);
-            return listaprefijo;
-        }else{
+            return listaidpar;
+        } else {
             return null;
         }
     }
-   
+    
+    public ArrayList<CContacto> listarporidimpar() {
+        ArrayList<CContacto> listaidimpar = new ArrayList<>();
+        conecta = con.conectar();
+        if (conecta != null) {
+            listaidimpar = consulta.listarporidimpar(conecta);
+            con.desconectar(conecta);
+            return listaidimpar;
+        } else {
+            return null;
+        }
+    }
+    
+    
+
 }//fin de la clase

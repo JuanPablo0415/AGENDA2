@@ -365,6 +365,102 @@ public class CConsultas {
             return null;
         }
     }//fin de la funcion listar por prefijo
+      
+        public ArrayList<CContacto> listarporalfa(Connection con) {
+        this.con = con;
+        query = "SELECT * FROM datos ORDER BY nombres;";
+        ArrayList<CContacto> listaalfa = new ArrayList<>();
+
+        try {
+
+            PreparedStatement preparar = con.prepareStatement(query);
+            ResultSet resultado = preparar.executeQuery();
+
+            while (resultado.next()) {
+                CContacto c = new CContacto(
+                        resultado.getInt("id"),
+                        resultado.getString("nombres"),
+                        resultado.getString("apellidos"),
+                        resultado.getString("direccion"),
+                        resultado.getString("telefono"),
+                        resultado.getString("email")
+                );
+                listaalfa.add(c);
+
+            }
+            System.out.println("Consulta correcta");
+            return listaalfa;
+
+        } catch (SQLException ex) {
+            System.out.println("Error en el sql");
+            return null;
+        }
+    }//fin de la funcion listar por por orden alfabetico
+        
+        
+      public ArrayList<CContacto> listarporidpar(Connection con) {
+        this.con = con;
+        query = "SELECT * FROM datos WHERE id %2=0";
+        ArrayList<CContacto> listaidpar = new ArrayList<>();
+
+        try {
+
+            PreparedStatement preparar = con.prepareStatement(query);
+            ResultSet resultado = preparar.executeQuery();
+
+            while (resultado.next()) {
+                CContacto c = new CContacto(
+                        resultado.getInt("id"),
+                        resultado.getString("nombres"),
+                        resultado.getString("apellidos"),
+                        resultado.getString("direccion"),
+                        resultado.getString("telefono"),
+                        resultado.getString("email")
+                );
+                listaidpar.add(c);
+
+            }
+            System.out.println("Consulta correcta");
+            return listaidpar;
+
+        } catch (SQLException ex) {
+            System.out.println("Error en el sql");
+            return null;
+        }
+    }//fin de la funcion listar por id par
+      
+      
+       public ArrayList<CContacto> listarporidimpar(Connection con) {
+        this.con = con;
+        query = "SELECT * FROM datos WHERE id %2!=0";
+        ArrayList<CContacto> listaidimpar = new ArrayList<>();
+
+        try {
+
+            PreparedStatement preparar = con.prepareStatement(query);
+            ResultSet resultado = preparar.executeQuery();
+
+            while (resultado.next()) {
+                CContacto c = new CContacto(
+                        resultado.getInt("id"),
+                        resultado.getString("nombres"),
+                        resultado.getString("apellidos"),
+                        resultado.getString("direccion"),
+                        resultado.getString("telefono"),
+                        resultado.getString("email")
+                );
+                listaidimpar.add(c);
+
+            }
+            System.out.println("Consulta correcta");
+            return listaidimpar;
+
+        } catch (SQLException ex) {
+            System.out.println("Error en el sql");
+            return null;
+        }
+    }//fin de la funcion listar por por id impar
+      
        
        
        
