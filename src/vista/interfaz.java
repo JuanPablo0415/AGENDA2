@@ -758,9 +758,9 @@ public class interfaz extends javax.swing.JFrame {
 
     private void listaralfaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaralfaActionPerformed
         modelo.setRowCount(0);
-        
-        ArrayList<CContacto> listaralfa=new ArrayList<>();
-         listaralfa = c.listarporalfa();
+
+        ArrayList<CContacto> listaralfa = new ArrayList<>();
+        listaralfa = c.listarporalfa();
 
         //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
         for (CContacto con : listaralfa) {
@@ -770,33 +770,45 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_listaralfaActionPerformed
 
     private void listaridparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaridparActionPerformed
-    modelo.setRowCount(0);
-    
-    ArrayList<CContacto> listaridpar=new ArrayList<>();
-    listaridpar=c.listarporidpar();
-    
-    //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+        modelo.setRowCount(0);
+
+        ArrayList<CContacto> listaridpar = new ArrayList<>();
+        listaridpar = c.listarporidpar();
+
+        //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
         for (CContacto con : listaridpar) {
             modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
         }
-        
+
     }//GEN-LAST:event_listaridparActionPerformed
 
     private void listaridimparesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listaridimparesActionPerformed
-  modelo.setRowCount(0);
-    
-    ArrayList<CContacto> listaridimpar=new ArrayList<>();
-    listaridimpar=c.listarporidimpar();
-    
-    //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+        modelo.setRowCount(0);
+
+        ArrayList<CContacto> listaridimpar = new ArrayList<>();
+        listaridimpar = c.listarporidimpar();
+
+        //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
         for (CContacto con : listaridimpar) {
             modelo.addRow(new Object[]{con.getId(), con.getNombres(), con.getApellidos(), con.getDireccion(), con.getTelefono(), con.getEmail()});
         }
-        
+
     }//GEN-LAST:event_listaridimparesActionPerformed
 
     private void listarcampoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarcampoActionPerformed
-
+        String seleccion = (String) uncampo.getSelectedItem();
+        //limpio la tabla antes de llevar los valores
+        modelo.setRowCount(0);
+        
+        
+        ArrayList <CContacto> listauncampo=new ArrayList<>();
+        listauncampo=c.listarporuncampo(seleccion);
+        
+        //hago un ciclo para recorrer la lista y ponerla en la tabla de la interfaz
+        for (CContacto con : listauncampo) {
+            modelo.addRow(new Object[]{con.getId()==0 ? "" : con.getId(), con.getNombres(), con.getApellidos(), con.getTelefono(), con.getDireccion(), con.getEmail()});
+        }
+        
     }//GEN-LAST:event_listarcampoActionPerformed
 
     /**

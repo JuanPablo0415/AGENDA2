@@ -266,11 +266,8 @@ public class CConsultas {
             return null;
         }
     }//fin de la funcion buscar por id
-    
-    
-    
-    
-     public ArrayList<CContacto> listarporcalle(Connection con) {
+
+    public ArrayList<CContacto> listarporcalle(Connection con) {
         this.con = con;
         query = "SELECT * FROM DATOS WHERE direccion LIKE 'CL%';";
         ArrayList<CContacto> listaCL = new ArrayList<>();
@@ -300,10 +297,8 @@ public class CConsultas {
             return null;
         }
     }//fin de la funcion listar por calle
-   
-     
-     
-       public ArrayList<CContacto> listarporcarrera(Connection con) {
+
+    public ArrayList<CContacto> listarporcarrera(Connection con) {
         this.con = con;
         query = "SELECT * FROM DATOS WHERE direccion LIKE 'Cra%';";
         ArrayList<CContacto> listaCra = new ArrayList<>();
@@ -334,8 +329,7 @@ public class CConsultas {
         }
     }//fin de la funcion listar por carerra
 
-       
-        public ArrayList<CContacto> listarporprefijo(Connection con, String telefono) {
+    public ArrayList<CContacto> listarporprefijo(Connection con, String telefono) {
         this.con = con;
         query = "SELECT * FROM datos WHERE telefono LIKE '" + telefono + "%';";
         ArrayList<CContacto> listaprefijo = new ArrayList<>();
@@ -365,8 +359,8 @@ public class CConsultas {
             return null;
         }
     }//fin de la funcion listar por prefijo
-      
-        public ArrayList<CContacto> listarporalfa(Connection con) {
+
+    public ArrayList<CContacto> listarporalfa(Connection con) {
         this.con = con;
         query = "SELECT * FROM datos ORDER BY nombres;";
         ArrayList<CContacto> listaalfa = new ArrayList<>();
@@ -396,9 +390,8 @@ public class CConsultas {
             return null;
         }
     }//fin de la funcion listar por por orden alfabetico
-        
-        
-      public ArrayList<CContacto> listarporidpar(Connection con) {
+
+    public ArrayList<CContacto> listarporidpar(Connection con) {
         this.con = con;
         query = "SELECT * FROM datos WHERE id %2=0";
         ArrayList<CContacto> listaidpar = new ArrayList<>();
@@ -428,9 +421,8 @@ public class CConsultas {
             return null;
         }
     }//fin de la funcion listar por id par
-      
-      
-       public ArrayList<CContacto> listarporidimpar(Connection con) {
+
+    public ArrayList<CContacto> listarporidimpar(Connection con) {
         this.con = con;
         query = "SELECT * FROM datos WHERE id %2!=0";
         ArrayList<CContacto> listaidimpar = new ArrayList<>();
@@ -460,8 +452,105 @@ public class CConsultas {
             return null;
         }
     }//fin de la funcion listar por por id impar
-      
-       
-       
-       
+
+    public ArrayList<CContacto> listaruncampo(Connection con, String seleccion) {
+        this.con = con;
+        query = "SELECT " + seleccion + " FROM datos;";
+        ArrayList<CContacto> listauncampo = new ArrayList<>();
+        boolean bandera = false;
+
+        try {
+
+            PreparedStatement preparar = con.prepareStatement(query);
+            ResultSet resultado = preparar.executeQuery();
+
+            if (seleccion.equals("id")) {
+                bandera = true;
+                while (resultado.next()) {
+                    CContacto c = new CContacto(
+                            resultado.getInt("id"),
+                            "",
+                            "",
+                            "",
+                            "",
+                            ""
+                    );
+                    listauncampo.add(c);
+                }
+            }
+            if (seleccion.equals("nombres")) {
+                while (resultado.next()) {
+                    CContacto c = new CContacto(
+                            (0),
+                            resultado.getString("nombres"),
+                            (""),
+                            (""),
+                            (""),
+                            ("")
+                    );
+                    listauncampo.add(c);
+                }
+            }
+            if (seleccion.equals("apellidos")) {
+                while (resultado.next()) {
+                    CContacto c = new CContacto(
+                            (0),
+                            (""),
+                            resultado.getString("apellidos"),
+                            (""),
+                            (""),
+                            ("")
+                    );
+                    listauncampo.add(c);
+                }
+            }
+            if (seleccion.equals("telefono")) {
+                while (resultado.next()) {
+                    CContacto c = new CContacto(
+                            (0),
+                            (""),
+                            (""),
+                            resultado.getString("telefono"),
+                            (""),
+                            ("")
+                    );
+                    listauncampo.add(c);
+                }
+            }
+            if (seleccion.equals("direccion")) {
+                while (resultado.next()) {
+                    CContacto c = new CContacto(
+                            (0),
+                            (""),
+                            (""),
+                            (""),
+                            resultado.getString("direccion"),
+                            ("")
+                    );
+                    listauncampo.add(c);
+                }
+            }
+            if (seleccion.equals("email")) {
+                while (resultado.next()) {
+                    CContacto c = new CContacto(
+                            (0),
+                            (""),
+                            (""),
+                            (""),
+                            (""),
+                            resultado.getString("email")
+                    );
+                    listauncampo.add(c);
+                }
+            }
+
+            System.out.println("Consulta correcta");
+            return listauncampo;
+
+        } catch (SQLException ex) {
+            System.out.println("Error en el sql");
+            return null;
+        }
+    }//fin de la funcion listar por por id impar
+
 }//fin de la clase

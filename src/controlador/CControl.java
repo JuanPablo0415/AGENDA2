@@ -189,6 +189,16 @@ public class CControl {
         }
     }
     
-    
+    public ArrayList<CContacto> listarporuncampo (String seleccion){
+        ArrayList<CContacto> listauncampo=new ArrayList<>();
+        conecta=con.conectar();
+        if(conecta != null){
+            listauncampo=consulta.listaruncampo(conecta, seleccion);
+            con.desconectar(conecta);
+            return listauncampo;
+        }else{
+            return null;
+        }
+    }
 
 }//fin de la clase
